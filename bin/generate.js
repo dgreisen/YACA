@@ -1,9 +1,12 @@
+#!/usr/bin/env node
+
 request = require('request');
 querystring = require('querystring')
 fs = require('fs')
 url = require('url')
 async = require('async')
 cli = require('cli')
+path = require('path')
 
 path_rx = /{{path}}/g
 database_rx = /{{db}}/g
@@ -124,7 +127,7 @@ function gen_interface(uri, filename, admin) {
   host  = uri || 'http://127.0.0.1:5984/'
   host += (host.slice(-1) == '/') ? '' : '/' // ensure ends in slash
   uri = url.parse(host)
-  filename = filename || './couchdb.js'
+  filename = filename || path.join(__dirname, '/../lib/couchdb.js')
 
   // the results of parsing our db
   parsed_db = {_path:''};
@@ -138,7 +141,7 @@ function gen_interface(uri, filename, admin) {
     console.log('warning: no admin credentials provided (provide as third argument: "username:password")')
   }
 
-  var source = fs.readFileSync('./generate_couchdb_interface.template', 'utf8');
+    var source = fs.readFileSync(path.join(__dirname,'/../lib/template.js'), 'utf8');
 
   function write_line(line) {
     source += line + '\n'
@@ -238,7 +241,7 @@ function gen_interface(uri, filename, admin) {
 
 
 
-cli.parse( { 'file': ['f', 'filename for output code', 'path', './couchdb.js']
+cli.parse( { 'file': ['f', 'filename for output code', 'path', path.join(__dirname,'../lib/couchdb.js')]
            , 'admin': ['a', 'admin basic auth in the form of: username:password', 'string']
            , 'db': ['d', 'db root url, include basic-auth admin privileges if needed to modify db.', 'url', 'http://127.0.0.1:5984']
            } )
