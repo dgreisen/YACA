@@ -17,37 +17,37 @@ method_rx = /{{method}}/g
 database_code = "\n\
 //** DB: {{db}} **\n\
 couchdb['{{db}}'] = function(options, callback) {\n\
-  return couchdb._request_generator(options, '{{path}}', null, callback)\n\
+  return couchdb._request(options, '{{path}}', null, callback)\n\
 }\n\
 couchdb['{{db}}'].get = function(options, callback) {\n\
-  return couchdb._request_generator(options, '{{path}}', null, callback)\n\
+  return couchdb._request(options, '{{path}}', null, callback)\n\
 }\n\
 couchdb['{{db}}'].del = function(options, callback) {\n\
-  return couchdb._request_generator(options, '{{path}}', 'del', callback)\n\
+  return couchdb._request(options, '{{path}}', 'del', callback)\n\
 }\n\
 couchdb['{{db}}'].post = function(options, callback) {\n\
-  return couchdb._request_generator(options, '{{path}}', 'post', callback)\n\
+  return couchdb._request(options, '{{path}}', 'post', callback)\n\
 }\n\
 couchdb['{{db}}'].put = function(options, callback) {\n\
-  return couchdb._request_generator(options, '{{path}}', 'put', callback)\n\
+  return couchdb._request(options, '{{path}}', 'put', callback)\n\
 }"
 
 ddoc_code = "\n\
 //** DB: {{db}} DDOC: {{ddoc}}**\n\
 couchdb['{{db}}']['{{ddoc}}'] = function(options, callback) {\n\
-  return couchdb._request_generator(options, '{{path}}', null, callback)\n\
+  return couchdb._request(options, '{{path}}', null, callback)\n\
 }\n\
 couchdb['{{db}}']['{{ddoc}}'].get = function(options, callback) {\n\
-  return couchdb._request_generator(options, '{{path}}', null, callback)\n\
+  return couchdb._request(options, '{{path}}', null, callback)\n\
 }\n\
 couchdb['{{db}}']['{{ddoc}}'].del = function(options, callback) {\n\
-  return couchdb._request_generator(options, '{{path}}', 'del', callback)\n\
+  return couchdb._request(options, '{{path}}', 'del', callback)\n\
 }\n\
 couchdb['{{db}}']['{{ddoc}}'].post = function(options, callback) {\n\
-  return couchdb._request_generator(options, '{{path}}', 'post', callback)\n\
+  return couchdb._request(options, '{{path}}', 'post', callback)\n\
 }\n\
 couchdb['{{db}}']['{{ddoc}}'].put = function(options, callback) {\n\
-  return couchdb._request_generator(options, '{{path}}', 'put', callback)\n\
+  return couchdb._request(options, '{{path}}', 'put', callback)\n\
 }"
 
 handler_code = "\n\
@@ -57,67 +57,69 @@ ddoc_api =
   { views: { path: '_view/'
            , code: "\n\
 couchdb['{{db}}']['{{ddoc}}'].views.{{method}} = function(query, callback) {\n\
-  return couchdb._request_generator({query:query}, '{{path}}', null, callback)\n\
+  if (!callback) return couchdb._request('', '{{path}}', null, query)\n\
+  return couchdb._request({query:query}, '{{path}}', null, callback)\n\
 }\n\
 couchdb['{{db}}']['{{ddoc}}'].views.{{method}}.get = function(options, callback) {\n\
-  return couchdb._request_generator(options, '{{path}}', null, callback)\n\
+  return couchdb._request(options, '{{path}}', null, callback)\n\
 }\n\
 couchdb['{{db}}']['{{ddoc}}'].views.{{method}}.post = function(options, callback) {\n\
-  return couchdb._request_generator(options, '{{path}}', post, callback)\n\
+  return couchdb._request(options, '{{path}}', post, callback)\n\
 }"
            }
   , shows: { path: '_show/'
            , code: "\n\
 couchdb['{{db}}']['{{ddoc}}'].shows.{{method}} = function(options, callback) {\n\
-  return couchdb._request_generator(options, '{{path}}', null, callback)\n\
+  return couchdb._request(options, '{{path}}', null, callback)\n\
 }\n\
 couchdb['{{db}}']['{{ddoc}}'].shows.{{method}}.get = function(options, callback) {\n\
-  return couchdb._request_generator(options, '{{path}}', null, callback)\n\
+  return couchdb._request(options, '{{path}}', null, callback)\n\
 }\n\
 couchdb['{{db}}']['{{ddoc}}'].shows.{{method}}.post = function(options, callback) {\n\
-  return couchdb._request_generator(options, '{{path}}', 'post', callback)\n\
+  return couchdb._request(options, '{{path}}', 'post', callback)\n\
 }"
            }
   , lists: { path: '_list/'
            , code: "\n\
 couchdb['{{db}}']['{{ddoc}}'].lists.{{method}} = function(options, callback) {\n\
-  return couchdb._request_generator(options, '{{path}}', null, callback)\n\
+  return couchdb._request(options, '{{path}}', null, callback)\n\
 }\n\
 couchdb['{{db}}']['{{ddoc}}'].lists.{{method}}.get = function(options, callback) {\n\
-  return couchdb._request_generator(options, '{{path}}', null, callback)\n\
+  return couchdb._request(options, '{{path}}', null, callback)\n\
 }\n\
 couchdb['{{db}}']['{{ddoc}}'].lists.{{method}}.post = function(options, callback) {\n\
-  return couchdb._request_generator(options, '{{path}}', 'post', callback)\n\
+  return couchdb._request(options, '{{path}}', 'post', callback)\n\
 }"
            }
   , updates: { path: '_update/'
              , code: "\n\
-couchdb['{{db}}']['{{ddoc}}'].updates.{{method}} = function(options, callback) {\n\
-  return couchdb._request_generator(options, '{{path}}', 'put', callback)\n\
+couchdb['{{db}}']['{{ddoc}}'].updates.{{method}} = function(json, callback) {\n\
+  if (!callback) return couchdb._request('', '{{path}}', 'put', json)\n\
+  return couchdb._request({json:json}, '{{path}}', 'put', callback)\n\
 }\n\
 couchdb['{{db}}']['{{ddoc}}'].updates.{{method}}.put = function(options, callback) {\n\
-  return couchdb._request_generator(options, '{{path}}', 'put', callback)\n\
+  return couchdb._request(options, '{{path}}', 'put', callback)\n\
 }\n\
 couchdb['{{db}}']['{{ddoc}}'].updates.{{method}}.post = function(options, callback) {\n\
-  return couchdb._request_generator(options, '{{path}}', 'post', callback)\n\
+  return couchdb._request(options, '{{path}}', 'post', callback)\n\
 }"
              }
   , rewrites: { path: '_rewrite/'
               , code: "\n\
 couchdb['{{db}}']['{{ddoc}}'].rewrites.{{method}} = function(options, callback) {\n\
-  return couchdb._request_generator(options, '{{path}}', null, callback)\n\
+  return couchdb._request(options, '{{path}}', null, callback)\n\
 }\n\
 couchdb['{{db}}']['{{ddoc}}'].rewrites.{{method}}.get = function(options, callback) {\n\
-  return couchdb._request_generator(options, '{{path}}', null, callback)\n\
+  return couchdb._request(options, '{{path}}', null, callback)\n\
 }\n\
 couchdb['{{db}}']['{{ddoc}}'].rewrites.{{method}}.put = function(options, callback) {\n\
-  return couchdb._request_generator(options, '{{path}}', 'put', callback)\n\
+  return couchdb._request(options, '{{path}}', 'put', callback)\n\
 }\n\
 couchdb['{{db}}']['{{ddoc}}'].rewrites.{{method}}.post = function(options, callback) {\n\
-  return couchdb._request_generator(options, '{{path}}', 'post', callback)\n\
+  return couchdb._request(options, '{{path}}', 'post', callback)\n\
 }\n\
 couchdb['{{db}}']['{{ddoc}}'].rewrites.{{method}}.del = function(options, callback) {\n\
-  return couchdb._request_generator(options, '{{path}}', 'del', callback)\n\
+  return couchdb._request(options, '{{path}}', 'del', callback)\n\
 }"
            }
   }
