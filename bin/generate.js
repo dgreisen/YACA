@@ -138,7 +138,7 @@ function gen_interface(uri, filename, admin) {
     console.log('making admin credentials available:', admin)
   }
   else {
-    console.log('warning: no admin credentials provided (provide as third argument: "username:password")')
+    console.log('warning: no admin credentials provided')
   }
 
     var source = fs.readFileSync(path.join(__dirname,'/../lib/template.js'), 'utf8');
