@@ -50,15 +50,15 @@ There are four primary API methods, corresponding to the http methods:
 
 To make a call against a database:
 
-    couchdb.<<database_name>>.<<http_method>>(options, callback)
+    couchdb.{{database_name}}.{{http_method}}(options, callback)
 
 or against a particular 
 
-    couchdb.<<database_name>>
-           .<<design_doc_name>>
-            .<<handler_name>
-           .<<method>>
-           .<<http_method>>(options, callback)
+    couchdb.{{database_name}}
+           .{{design_doc_name}}
+            .{{handler_name>
+           .{{method}}
+           .{{http_method}}(options, callback)
 
 See [options](#options) for what is allowed in options. callback is of the form: `callback(error, response, body)` where `response` is the unadulterated response from the CouchDB server and `body` is a javascript object parsed from the JSON response body.
 
@@ -106,6 +106,7 @@ Hopefully this gives you a general idea of how the API works.
 ### Errors ###
 When couchdb returns any code greater than 299, the api returns a javascript option parsed from the CouchDB error response with the added field 'statusCode,' with the http StatusCode.
 
+<a name='options' /> 
 ### Options ###
 YACA is derived from request, and so it supports most of the options supported by request, and a few more
 
@@ -134,71 +135,72 @@ All of the following API calls conform are passed an options argument and a call
 * couchdb.del(options, callback)
 
 #### Database ####
-* couchdb.<<db>>(options, callback) - same as .get
-* couchdb.<<db>>.get(options, callback)
-* couchdb.<<db>>.post(options, callback)
-* couchdb.<<db>>.put(options, callback)
-* couchdb.<<db>>.del(options, callback)
+* couchdb.{{db}}(options, callback) - same as .get
+* couchdb.{{db}}.get(options, callback)
+* couchdb.{{db}}.post(options, callback)
+* couchdb.{{db}}.put(options, callback)
+* couchdb.{{db}}.del(options, callback)
 
-Where <<db>> is the name of the database. if your database name is a protected word, the YACA generator will notify you, and <<db>> will be your database name prepended with '__' (two underscores).
+Where {{db}} is the name of the database. if your database name is a protected word, the YACA generator will notify you, and {{db}} will be your database name prepended with '__' (two underscores).
 
 #### Design Documents ####
-* couchdb.<<db>>.<<ddoc>>(options, callback) - same as .get
-* couchdb.<<db>>.<<ddoc>>.get(options, callback)
-* couchdb.<<db>>.<<ddoc>>.post(options, callback)
-* couchdb.<<db>>.<<ddoc>>.put(options, callback)
-* couchdb.<<db>>.<<ddoc>>.del(options, callback)
+* couchdb.{{db}}.{{ddoc}}(options, callback) - same as .get
+* couchdb.{{db}}.{{ddoc}}.get(options, callback)
+* couchdb.{{db}}.{{ddoc}}.post(options, callback)
+* couchdb.{{db}}.{{ddoc}}.put(options, callback)
+* couchdb.{{db}}.{{ddoc}}.del(options, callback)
 
-Where <<db>> is as described above, and <<ddoc>> is the _id of your design doc stripped of the '_design/'.
+Where {{db}} is as described above, and {{ddoc}} is the _id of your design doc stripped of the '_design/'.
 
 #### Views ####
-* couchdb.<<db>>.<<ddoc>>.views.<<method>>.get(options, callback)
-* couchdb.<<db>>.<<ddoc>>.views.<<method>>.post(options, callback)
+* couchdb.{{db}}.{{ddoc}}.views.{{method}}.get(options, callback)
+* couchdb.{{db}}.{{ddoc}}.views.{{method}}.post(options, callback)
 
 #### Shows ####
-* couchdb.<<db>>.<<ddoc>>.shows.<<method>>(options, callback) - same as .get
-* couchdb.<<db>>.<<ddoc>>.shows.<<method>>.get(options, callback)
-* couchdb.<<db>>.<<ddoc>>.shows.<<method>>.post(options, callback)
+* couchdb.{{db}}.{{ddoc}}.shows.{{method}}(options, callback) - same as .get
+* couchdb.{{db}}.{{ddoc}}.shows.{{method}}.get(options, callback)
+* couchdb.{{db}}.{{ddoc}}.shows.{{method}}.post(options, callback)
 
 #### Lists ####
-* couchdb.<<db>>.<<ddoc>>.lists.<<method>>.get(options, callback) - same as .get
-* couchdb.<<db>>.<<ddoc>>.lists.<<method>>.post(options, callback)
+* couchdb.{{db}}.{{ddoc}}.lists.{{method}}.get(options, callback) - same as .get
+* couchdb.{{db}}.{{ddoc}}.lists.{{method}}.post(options, callback)
 
 #### Updates ####
-* couchdb.<<db>>.<<ddoc>>.updates.<<method>>.put(options, callback)
-* couchdb.<<db>>.<<ddoc>>.updates.<<method>>.post(options, callback)
+* couchdb.{{db}}.{{ddoc}}.updates.{{method}}(options, callback) - same as .put
+* couchdb.{{db}}.{{ddoc}}.updates.{{method}}.put(options, callback)
+* couchdb.{{db}}.{{ddoc}}.updates.{{method}}.post(options, callback)
 
 #### Rewrites ####
-* couchdb.<<db>>.<<ddoc>>.rewrites.<<method>>(options, callback) - same as .get
-* couchdb.<<db>>.<<ddoc>>.rewrites.<<method>>.get(options, callback)
-* couchdb.<<db>>.<<ddoc>>.rewrites.<<method>>.pust(options, callback)
-* couchdb.<<db>>.<<ddoc>>.rewrites.<<method>>.post(options, callback)
-* couchdb.<<db>>.<<ddoc>>.rewrites.<<method>>.del(options, callback)
+* couchdb.{{db}}.{{ddoc}}.rewrites.{{method}}(options, callback) - same as .get
+* couchdb.{{db}}.{{ddoc}}.rewrites.{{method}}.get(options, callback)
+* couchdb.{{db}}.{{ddoc}}.rewrites.{{method}}.pust(options, callback)
+* couchdb.{{db}}.{{ddoc}}.rewrites.{{method}}.post(options, callback)
+* couchdb.{{db}}.{{ddoc}}.rewrites.{{method}}.del(options, callback)
 
 ### Helper API ###
 Anything you can do with the helper APIs you can do with the standard API. For example, you could get uuids in either of the two following ways:
 
     couchdb._uuids(3, callback(e, b) {console.log(b)})
-    // response: [<<uuid1>>, <<uuid2>>, <<uuid3>>]
+    // response: [{{uuid1}}, {{uuid2}}, {{uuid3}}]
 
     couchdb.get( {uri:'_uuid',query:{count:'3'}}
                , callback(e, r, b) {console.log(b)})
-    // response: {uuids: [<<uuid1>>, <<uuid2>>, <<uuid3>>]}
+    // response: {uuids: [{{uuid1}}, {{uuid2}}, {{uuid3}}]}
 
 As you can see, the helper functions simply reduce the verbosity. But if you are already familiar with the couchdb apis, it might simply be easier to use the standard API, rather than having to refer to the helper api.
 
 #### CouchDB Root ####
 * couchdb._uuids([count], callback(error, uuids))
   * `count` - number of uuids to return - defaults to 1
-  * `uuids` - list of uuids returned by CouchDB
+  * `uuids` - array of uuid strings returned by CouchDB
 
 #### Updates ####
-* couchdb.<<db>>.<<ddoc>>.updates.<<method>>(json, callback)
+* couchdb.{{db}}.{{ddoc}}.updates.{{method}}(json, callback)
   * `json` - body to send to the update
   * returns standard (error, response, body) to the callback
 
 ### Views ###
-* couchdb.<<db>>.<<ddoc>>.views.<<method>>(query, callback)
+* couchdb.{{db}}.{{ddoc}}.views.{{method}}(query, callback)
   * `query` - query parameters to pass to the view
   * returns standard (error, response, body) to the callback
 

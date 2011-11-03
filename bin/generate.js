@@ -93,9 +93,8 @@ couchdb['{{db}}']['{{ddoc}}'].lists.{{method}}.post = function(options, callback
            }
   , updates: { path: '_update/'
              , code: "\n\
-couchdb['{{db}}']['{{ddoc}}'].updates.{{method}} = function(json, callback) {\n\
-  if (!callback) return couchdb._request('', '{{path}}', 'put', json)\n\
-  return couchdb._request({json:json}, '{{path}}', 'put', callback)\n\
+couchdb['{{db}}']['{{ddoc}}'].updates.{{method}} = function(options, callback) {\n\
+  return couchdb._request(options, '{{path}}', 'put', callback)\n\
 }\n\
 couchdb['{{db}}']['{{ddoc}}'].updates.{{method}}.put = function(options, callback) {\n\
   return couchdb._request(options, '{{path}}', 'put', callback)\n\
@@ -194,8 +193,9 @@ function gen_interface(uri, filename, admin) {
     return request(host+db+'/_all_docs?'+query, handle_ddocs)
     
     function handle_ddocs(error, response, body) {
-      db_name = response.request.path.split('/')[1]
-      db_name = (['get', 'post', 'put', 'del', '_has_error', '_request_generator'].indexOf(db) >= 0) ? '__'+db_name : db_name
+      db_name = response.request.path.split('/')[1];
+      db_path = db_name + '/';
+      db_name = (['get', 'post', 'put', 'del', '_has_error', '_request_generator'].indexOf(db) >= 0) ? '__'+db_name : db_name;
       body = JSON.parse(body);
       for (i in body.rows) {
         // generate ddoc api
@@ -221,7 +221,7 @@ function gen_interface(uri, filename, admin) {
             
             // put any method calls (eg _view/_by_id) in target handler
             for (method_name in handler) {
-              method_path = handler_path + method_name
+              method_path = handler_path + method_name + '/'
               write_line(ddoc_api[handler_name].code
                                                .replace(method_rx, method_name)
                                                .replace(ddoc_rx, ddoc_name)
