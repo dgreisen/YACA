@@ -14,116 +14,16 @@ ddoc_rx = /{{ddoc}}/g
 handler_rx = /{{handler}}/g
 method_rx = /{{method}}/g
 
-database_code = "\n\
-//** DB: {{db}} **\n\
-couchdb['{{db}}'] = function(options, callback) {\n\
-  return couchdb._request(options, '{{path}}', null, callback)\n\
-}\n\
-couchdb['{{db}}'].get = function(options, callback) {\n\
-  return couchdb._request(options, '{{path}}', null, callback)\n\
-}\n\
-couchdb['{{db}}'].del = function(options, callback) {\n\
-  return couchdb._request(options, '{{path}}', 'del', callback)\n\
-}\n\
-couchdb['{{db}}'].post = function(options, callback) {\n\
-  return couchdb._request(options, '{{path}}', 'post', callback)\n\
-}\n\
-couchdb['{{db}}'].put = function(options, callback) {\n\
-  return couchdb._request(options, '{{path}}', 'put', callback)\n\
-}"
+database_code = "\ncouchdb['{{db}}'] = db_factory('{{path}}')"
 
-ddoc_code = "\n\
-//** DB: {{db}} DDOC: {{ddoc}}**\n\
-couchdb['{{db}}']['{{ddoc}}'] = function(options, callback) {\n\
-  return couchdb._request(options, '{{path}}', null, callback)\n\
-}\n\
-couchdb['{{db}}']['{{ddoc}}'].get = function(options, callback) {\n\
-  return couchdb._request(options, '{{path}}', null, callback)\n\
-}\n\
-couchdb['{{db}}']['{{ddoc}}'].del = function(options, callback) {\n\
-  return couchdb._request(options, '{{path}}', 'del', callback)\n\
-}\n\
-couchdb['{{db}}']['{{ddoc}}'].post = function(options, callback) {\n\
-  return couchdb._request(options, '{{path}}', 'post', callback)\n\
-}\n\
-couchdb['{{db}}']['{{ddoc}}'].put = function(options, callback) {\n\
-  return couchdb._request(options, '{{path}}', 'put', callback)\n\
-}"
+ddoc_code = "\ncouchdb['{{db}}']['{{ddoc}}'] = db_factory('{{path}}')"
 
-handler_code = "\n\
-couchdb['{{db}}']['{{ddoc}}'].{{handler}} = {}"
+handler_code = "\ncouchdb['{{db}}']['{{ddoc}}'].{{handler}} = {}"
 
-ddoc_api = 
-  { views: { path: '_view/'
-           , code: "\n\
-couchdb['{{db}}']['{{ddoc}}'].views.{{method}} = function(query, callback) {\n\
-  if (!callback) return couchdb._request('', '{{path}}', null, query)\n\
-  return couchdb._request({query:query}, '{{path}}', null, callback)\n\
-}\n\
-couchdb['{{db}}']['{{ddoc}}'].views.{{method}}.get = function(options, callback) {\n\
-  return couchdb._request(options, '{{path}}', null, callback)\n\
-}\n\
-couchdb['{{db}}']['{{ddoc}}'].views.{{method}}.post = function(options, callback) {\n\
-  return couchdb._request(options, '{{path}}', post, callback)\n\
-}"
-           }
-  , shows: { path: '_show/'
-           , code: "\n\
-couchdb['{{db}}']['{{ddoc}}'].shows.{{method}} = function(options, callback) {\n\
-  return couchdb._request(options, '{{path}}', null, callback)\n\
-}\n\
-couchdb['{{db}}']['{{ddoc}}'].shows.{{method}}.get = function(options, callback) {\n\
-  return couchdb._request(options, '{{path}}', null, callback)\n\
-}\n\
-couchdb['{{db}}']['{{ddoc}}'].shows.{{method}}.post = function(options, callback) {\n\
-  return couchdb._request(options, '{{path}}', 'post', callback)\n\
-}"
-           }
-  , lists: { path: '_list/'
-           , code: "\n\
-couchdb['{{db}}']['{{ddoc}}'].lists.{{method}} = function(options, callback) {\n\
-  return couchdb._request(options, '{{path}}', null, callback)\n\
-}\n\
-couchdb['{{db}}']['{{ddoc}}'].lists.{{method}}.get = function(options, callback) {\n\
-  return couchdb._request(options, '{{path}}', null, callback)\n\
-}\n\
-couchdb['{{db}}']['{{ddoc}}'].lists.{{method}}.post = function(options, callback) {\n\
-  return couchdb._request(options, '{{path}}', 'post', callback)\n\
-}"
-           }
-  , updates: { path: '_update/'
-             , code: "\n\
-couchdb['{{db}}']['{{ddoc}}'].updates.{{method}} = function(options, callback) {\n\
-  return couchdb._request(options, '{{path}}', 'put', callback)\n\
-}\n\
-couchdb['{{db}}']['{{ddoc}}'].updates.{{method}}.put = function(options, callback) {\n\
-  return couchdb._request(options, '{{path}}', 'put', callback)\n\
-}\n\
-couchdb['{{db}}']['{{ddoc}}'].updates.{{method}}.post = function(options, callback) {\n\
-  return couchdb._request(options, '{{path}}', 'post', callback)\n\
-}"
-             }
-  , rewrites: { path: '_rewrite/'
-              , code: "\n\
-couchdb['{{db}}']['{{ddoc}}'].rewrites.{{method}} = function(options, callback) {\n\
-  return couchdb._request(options, '{{path}}', null, callback)\n\
-}\n\
-couchdb['{{db}}']['{{ddoc}}'].rewrites.{{method}}.get = function(options, callback) {\n\
-  return couchdb._request(options, '{{path}}', null, callback)\n\
-}\n\
-couchdb['{{db}}']['{{ddoc}}'].rewrites.{{method}}.put = function(options, callback) {\n\
-  return couchdb._request(options, '{{path}}', 'put', callback)\n\
-}\n\
-couchdb['{{db}}']['{{ddoc}}'].rewrites.{{method}}.post = function(options, callback) {\n\
-  return couchdb._request(options, '{{path}}', 'post', callback)\n\
-}\n\
-couchdb['{{db}}']['{{ddoc}}'].rewrites.{{method}}.del = function(options, callback) {\n\
-  return couchdb._request(options, '{{path}}', 'del', callback)\n\
-}"
-           }
-  }
+method_code = "\n\
+couchdb['{{db}}']['{{ddoc}}'].{{handler}}['{{method}}'] = method_factories['{{handler}}']('{{path}}')"
 
-
+handlers = {views:'',shows:'',lists:'',updates:'',rewrites:''};
 function gen_interface(uri, filename, admin) {
   host  = uri || 'http://127.0.0.1:5984/'
   host += (host.slice(-1) == '/') ? '' : '/' // ensure ends in slash
@@ -211,22 +111,21 @@ function gen_interface(uri, filename, admin) {
         
         // generate handler (eg views, updates) apis contained in ddoc
         for (handler_name in ddoc) {
-          if (handler_name in ddoc_api && JSON.stringify(ddoc[handler_name]) != JSON.stringify({})) {
+          if (handler_name in handlers && JSON.stringify(ddoc[handler_name]) != JSON.stringify({})) {
             handler = ddoc[handler_name]
-            handler_path = ddoc_path + ddoc_api[handler_name].path;
+            handler_path = ddoc_path + handlers[handler_name].path;
             write_line(handler_code.replace(handler_rx, handler_name)
                                    .replace(ddoc_rx, ddoc_name)
-                                   .replace(database_rx, db_name)
-                                   .replace(path_rx, handler_path) )
+                                   .replace(database_rx, db_name) )
             
             // put any method calls (eg _view/_by_id) in target handler
             for (method_name in handler) {
               method_path = handler_path + method_name + '/'
-              write_line(ddoc_api[handler_name].code
-                                               .replace(method_rx, method_name)
-                                               .replace(ddoc_rx, ddoc_name)
-                                               .replace(database_rx, db_name)
-                                               .replace(path_rx, method_path) )
+              write_line(method_code.replace(method_rx, method_name)
+                                    .replace(ddoc_rx, ddoc_name)
+                                    .replace(handler_rx, handler_name)
+                                    .replace(database_rx, db_name)
+                                    .replace(path_rx, method_path) )
             }
           }
         }
