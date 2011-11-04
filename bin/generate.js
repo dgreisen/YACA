@@ -23,7 +23,8 @@ handler_code = "\ncouchdb['{{db}}']['{{ddoc}}'].{{handler}} = {}"
 method_code = "\n\
 couchdb['{{db}}']['{{ddoc}}'].{{handler}}['{{method}}'] = method_factories['{{handler}}']('{{path}}')"
 
-handlers = {views:'',shows:'',lists:'',updates:'',rewrites:''};
+handlers = {views:'_view/',shows:'_show/',lists:'_list/',updates:'_update/',rewrites:'_rewrite/'};
+
 function gen_interface(uri, filename, admin) {
   host  = uri || 'http://127.0.0.1:5984/'
   host += (host.slice(-1) == '/') ? '' : '/' // ensure ends in slash
@@ -113,7 +114,7 @@ function gen_interface(uri, filename, admin) {
         for (handler_name in ddoc) {
           if (handler_name in handlers && JSON.stringify(ddoc[handler_name]) != JSON.stringify({})) {
             handler = ddoc[handler_name]
-            handler_path = ddoc_path + handlers[handler_name].path;
+            handler_path = ddoc_path + handlers[handler_name];
             write_line(handler_code.replace(handler_rx, handler_name)
                                    .replace(ddoc_rx, ddoc_name)
                                    .replace(database_rx, db_name) )
