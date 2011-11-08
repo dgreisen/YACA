@@ -1,6 +1,1 @@
-try {
-  module.exports = require('./lib/couchdb');
-}
-catch(err) {
-  module.exports = require('./lib/template.js');
-}
+module.exports = require('./lib/api_factory.js');

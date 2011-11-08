@@ -1,10 +1,9 @@
 { "name": "YACA"
 , "description": "CouchDB api - generates a custom CouchDB api by introspecting a CouchDB instance"
-, "version": "0.1.1"
+, "version": "0.2.1"
 , "directories": { "lib": "./lib"
                  , "bin": "./bin"
                  }
-, "bin": {"generate_couch_api": "./bin/generate.js"}
 , "main": "index.js"
 , "author": "David Greisen <dgreisen@gmail.com>"
 , "repository": {"type":"git", "url":"http://github.com/dgreisen/YACA.git"}
