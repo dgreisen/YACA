@@ -233,11 +233,13 @@ As you can see, the helper functions simply reduce the verbosity. But if you are
 Returns `count` uuids retrieved from a call to _uuids.
 
 #### Database ####
-* _new_doc(json, callback(error, response, body))
+* _new_doc(json, admin=false, callback(error, response, body))
   * `json` - the document body as a javascript object.
+  * `admin` - whether to provide admin credentials for the operation
 Requests a uuid from the CouchDB server, puts the document described by `json` at that uuid. Returns the server response
-* _delete(uuid, callback(error, response, body))
+* _delete(uuid, admin=false, callback(error, response, body))
   * `uuid` - the uuid of the document to delete
+  * `admin` - whether to provide admin credentials for the operation
 *Unsafe Deletion!* Deletes the object referenced by `uuid` without regard to version numbers.
  
 #### Updates ####
