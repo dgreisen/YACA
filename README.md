@@ -230,7 +230,16 @@ As you can see, the helper functions simply reduce the verbosity. But if you are
 * couchdb._uuids([count], callback(error, uuids))
   * `count` - number of uuids to return - defaults to 1
   * `uuids` - array of uuid strings returned by CouchDB
+Returns `count` uuids retrieved from a call to _uuids.
 
+#### Database ####
+* _new_doc(json, callback(error, response, body))
+  * `json` - the document body as a javascript object.
+Requests a uuid from the CouchDB server, puts the document described by `json` at that uuid. Returns the server response
+* _delete(uuid, callback(error, response, body))
+  * `uuid` - the uuid of the document to delete
+*Unsafe Deletion!* Deletes the object referenced by `uuid` without regard to version numbers.
+ 
 #### Updates ####
 * couchdb.{{db}}.{{ddoc}}.updates.{{method}}(json, callback)
   * `json` - body to send to the update

@@ -1,13 +1,13 @@
 #!/usr/bin/env node
 
-couchdb_factory = require('YACA');
+couchdb_factory = require('YACA').api_factory;
 cli = require('cli');
 path = require('path');
 
 cli.parse( { 'file' : [ 'f'
                       , 'filename for output code'
                       , 'path'
-                      , path.join(__dirname,'../lib/couchdb.js')
+                      , path.join(__dirname,'../lib/api_cache.json')
                       ]
            , 'admin': [ 'a'
                       , 'admin basic auth in the form of: username:password'
