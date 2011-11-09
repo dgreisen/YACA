@@ -33,6 +33,16 @@ First, generate the API by calling:
  * `factory_options` - an optional hash. See [factory options](#factory_options) reference for more.
  * `callback` - a callback function of the form `callback(error, couchdb_api)`.
 
+You can optionally call `generate_couche_api` from the commandline:
+
+    generate_couch_api [-f PATH] [-d DB_URL] [-a USERNAME:PASSWORD]
+
+ * `PATH` - the location of the file into which to write the couchdb api. If not specified, it will be placed in path/to/YACA/lib/couchdb.js, and will be imported when you `require('YACA')`.
+ * `DB_URL` - the url to your CouchDB instance. It defaults to `http://127.0.0.1:5984`. If privileges are needed to view design documents or the root instance, provide username and password as: `http://username:password@host_name`
+ * `USERNAME:PASSWORD` - basic auth credentials where `USERNAME` is an admin username and `PASSWORD` is the admin's password, if you wish to be able to access admin-restricted content through the api. *The username and password will be stored in the generated cache.* See [options reference](#options) for more.
+
+The command line function is useful for generating a cache that your production code can then access and create an api without ever having to introspect the database.
+
 ### 2. Use the API ###
 There are four primary API methods, corresponding to the http methods:
  * `get`

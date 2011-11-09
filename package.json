@@ -4,6 +4,7 @@
 , "directories": { "lib": "./lib"
                  , "bin": "./bin"
                  }
+, "bin": {"generate_couch_api": "./bin/generate.js"}
 , "main": "index.js"
 , "author": "David Greisen <dgreisen@gmail.com>"
 , "repository": {"type":"git", "url":"http://github.com/dgreisen/YACA.git"}

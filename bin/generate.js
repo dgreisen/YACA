@@ -1,11 +1,8 @@
 #!/usr/bin/env node
 
-
 couchdb_factory = require('YACA');
-
-
-
-
+cli = require('cli');
+path = require('path');
 
 cli.parse( { 'file' : [ 'f'
                       , 'filename for output code'
@@ -24,10 +21,10 @@ cli.parse( { 'file' : [ 'f'
            } )
 
 cli.main(function(args, options) {
-  couchdb_factory( {file:options.db, admin:options.admin, db_url:options.db}
+  couchdb_factory( {file:options.file, admin:options.admin, db_url:options.db}
                  , function(error, couchdb) {
                      if (error) {console.log(error)}
-                     else {console.log(complete)}
+                     else {console.log('complete')}
 		   }
                  );
 })
